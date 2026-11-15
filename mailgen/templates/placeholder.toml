@@ -1,0 +1,195 @@
+# PLACEHOLDER TEMPLATES.
+#
+# Every text in this file is a stand-in so that the generator runs. The author
+# writes the real templates. Nothing here needs a change in the code: add or
+# rewrite wordings and they are used.
+#
+# Slots that any text may use:
+#   {sender} {recipient}              full names
+#   {sender_first} {recipient_first}  first names
+#   {item}                            the thing the case is about
+#   {ref}                             the case reference
+#   {subject} {date}                  subject and date of the mail that is answered or forwarded
+# In quote_header and forward_header, {sender} is whoever wrote that older mail.
+#
+# Rules the tests check:
+#   - every step type of the glossary has a section [step.NAME]
+#   - every wording under with_keyword contains the glossary's word for the step
+#   - no wording under without_keyword contains it
+#   - every kind of noise in the catalogue has a section [noise.name]
+
+[layout]
+greetings = ["Hallo {recipient_first},", "Guten Tag,", "Hallo,"]
+closings = ["Viele Grüße\n{sender}", "MfG\n{sender}", "Gruß\n{sender_first}"]
+reference_line = "Bezug: {ref}"
+subject_with_reference = "{subject} {ref}"
+reply_subject = "AW: {subject}"
+forward_subject = "WG: {subject}"
+generic_subjects = ["Rückfrage", "kurze Frage", "Unterlagen", "Nachtrag"]
+quote_header = "{sender} schrieb am {date}:"
+forward_header = "---- Weitergeleitete Nachricht von {sender} vom {date} ----"
+
+[step.ABLEHNUNG]
+subject = "Ablehnung"
+with_keyword = ["leider eine Ablehnung von mir: {item} geht so nicht."]
+without_keyword = ["{item} kann ich leider nicht genehmigen."]
+
+[step.ABRECHNUNG]
+subject = "Abrechnung"
+with_keyword = ["anbei meine Abrechnung: {item}. Die Belege hängen an."]
+without_keyword = ["anbei Belege und Kosten: {item}. Bitte um Erstattung."]
+
+[step.ABSAGE]
+subject = "Absage"
+with_keyword = ["leider müssen wir Ihnen eine Absage erteilen, es geht um {item}."]
+without_keyword = ["leider haben wir uns anders entschieden, es geht um {item}."]
+
+[step.ANFRAGE]
+subject = "Anfrage"
+with_keyword = ["hiermit unsere Anfrage: Können Sie {item} liefern, und zu welchem Preis?"]
+without_keyword = ["können Sie uns {item} liefern? Bitte nennen Sie Preis und Lieferzeit."]
+
+[step.ANGEBOT]
+subject = "Angebot"
+with_keyword = ["anbei unser Angebot: {item}."]
+without_keyword = ["{item} können wir zu dem Preis im Anhang liefern."]
+
+[step.ANTRAG]
+subject = "Antrag"
+with_keyword = ["hiermit stelle ich den Antrag: {item}."]
+without_keyword = ["ich bitte um Genehmigung: {item}."]
+
+[step.AUFTRAGSBESTAETIGUNG]
+subject = "Auftragsbestätigung"
+with_keyword = ["anbei die Auftragsbestätigung: {item}."]
+without_keyword = ["wir haben Ihren Auftrag angenommen und eingeplant: {item}."]
+
+[step.BEDARF]
+subject = "Bedarf"
+with_keyword = ["wir haben Bedarf: {item}. Bitte beschaffen."]
+without_keyword = ["wir brauchen {item}. Bitte kümmert euch darum."]
+
+[step.BESTAETIGUNG]
+subject = "Bestätigung"
+with_keyword = ["kurze Bestätigung: {item} funktioniert."]
+without_keyword = ["{item} läuft, danke."]
+
+[step.BESTELLUNG]
+subject = "Bestellung"
+with_keyword = ["hiermit unsere Bestellung: {item}."]
+without_keyword = ["bitte liefern Sie uns wie besprochen: {item}."]
+
+[step.BEWERBUNG]
+subject = "Bewerbung"
+with_keyword = ["anbei meine Bewerbung, es geht um {item}."]
+without_keyword = ["ich interessiere mich für {item}. Meine Unterlagen hängen an."]
+
+[step.BUCHUNG]
+subject = "Buchung"
+with_keyword = ["die Buchung ist erledigt: {item}. Unterlagen anbei."]
+without_keyword = ["Fahrt und Hotel sind reserviert: {item}. Unterlagen anbei."]
+
+[step.EINLADUNG]
+subject = "Einladung"
+with_keyword = ["anbei die Einladung zum Gespräch, es geht um {item}."]
+without_keyword = ["wir würden Sie gern kennenlernen, es geht um {item}. Passt Ihnen nächste Woche?"]
+
+[step.EINRICHTUNG]
+subject = "Einrichtung"
+with_keyword = ["die Einrichtung ist erledigt: {item}."]
+without_keyword = ["steht bereit: {item}. Die Zugangsdaten kommen getrennt."]
+
+[step.ERSATZLIEFERUNG]
+subject = "Ersatzlieferung"
+with_keyword = ["wir schicken eine Ersatzlieferung: {item}."]
+without_keyword = ["wir tauschen aus: {item}. Die neue Ware geht diese Woche raus."]
+
+[step.FREIGABE]
+subject = "Freigabe"
+with_keyword = ["hiermit die Freigabe: {item}."]
+without_keyword = ["ist genehmigt: {item}."]
+
+[step.GUTSCHRIFT]
+subject = "Gutschrift"
+with_keyword = ["anbei die Gutschrift: {item}."]
+without_keyword = ["wir erstatten Ihnen den Betrag: {item}."]
+
+[step.LIEFERMELDUNG]
+subject = "Liefermeldung"
+with_keyword = ["Liefermeldung: {item}. Lieferschein anbei."]
+without_keyword = ["Lieferschein anbei: {item}. Die Ware ist vollständig."]
+
+[step.MAENGELANZEIGE]
+subject = "Mängelanzeige"
+with_keyword = ["Mängelanzeige: {item} ist beschädigt angekommen."]
+without_keyword = ["bei der Lieferung stimmt etwas nicht: {item}. Fotos anbei."]
+
+[step.MAHNUNG]
+subject = "Mahnung"
+with_keyword = ["dies ist eine Mahnung: der Betrag ist noch offen, es geht um {item}."]
+without_keyword = ["der Betrag ist noch offen, es geht um {item}. Bitte überweisen Sie ihn diese Woche."]
+
+[step.MELDUNG]
+subject = "Meldung"
+with_keyword = ["zur Meldung an die Personalabteilung: {item}. Die Entscheidung liegt bei."]
+without_keyword = ["zur Kenntnis für die Personalakte: {item}. Die Entscheidung liegt bei."]
+
+[step.PRUEFUNG]
+subject = "Prüfung"
+with_keyword = ["das Ergebnis der Prüfung liegt bei: {item}."]
+without_keyword = ["wir haben uns die Ware angesehen: {item}. Der Befund liegt bei."]
+
+[step.RECHNUNG]
+subject = "Rechnung"
+with_keyword = ["anbei die Rechnung: {item}."]
+without_keyword = ["anbei der fällige Betrag: {item}. Zahlbar in 14 Tagen."]
+
+[step.REKLAMATION]
+subject = "Reklamation"
+with_keyword = ["hiermit unsere Reklamation: {item} ist mangelhaft."]
+without_keyword = ["{item} ist mangelhaft angekommen. So können wir die Ware nicht abnehmen."]
+
+[step.RUECKMELDUNG]
+subject = "Rückmeldung"
+with_keyword = ["hier meine Rückmeldung zum Gespräch, es geht um {item}."]
+without_keyword = ["mein Eindruck vom Gespräch, es geht um {item}: fachlich passt es."]
+
+[step.STELLUNGNAHME]
+subject = "Stellungnahme"
+with_keyword = ["anbei unsere Stellungnahme: {item}."]
+without_keyword = ["wir haben uns den Fall angesehen: {item}. Unsere Sicht steht im Anhang."]
+
+[step.WEITERLEITUNG]
+subject = "Weiterleitung"
+with_keyword = ["zur Weiterleitung an euch: Unterlagen, es geht um {item}."]
+without_keyword = ["anbei die Unterlagen, es geht um {item}. Bitte anschauen."]
+
+[step.ZAHLUNG]
+subject = "Zahlung"
+with_keyword = ["die Zahlung ist heute raus: {item}."]
+without_keyword = ["der Betrag wurde heute überwiesen: {item}."]
+
+[step.ZUSAGE]
+subject = "Zusage"
+with_keyword = ["wir freuen uns, Ihnen die Zusage zu geben, es geht um {item}."]
+without_keyword = ["wir möchten Sie einstellen, es geht um {item}. Der Vertrag folgt."]
+
+[noise.messe]
+subjects = ["Newsletter Fachmesse Sensorik"]
+texts = ["Guten Tag,\n\ndas Programm der Fachmesse Sensorik ist online. Tickets gibt es bis Monatsende günstiger.\n\nIhr Messeteam"]
+
+[noise.kantine]
+subjects = ["Speiseplan der Woche"]
+texts = ["Hallo zusammen,\n\nder Speiseplan für die kommende Woche hängt aus. Am Freitag gibt es Fisch.\n\nEure Kantine"]
+
+[noise.abwesenheit]
+subjects = ["Automatische Antwort: {subject}"]
+texts = ["Ich bin zurzeit nicht im Büro und lese meine Mails erst danach.\n\n{sender}"]
+
+[noise.geburtstag]
+subjects = ["Sammlung Geburtstag"]
+texts = ["Hallo {recipient_first},\n\nwir sammeln für ein Geschenk. Der Umschlag liegt bei mir im Büro.\n\nGruß\n{sender_first}"]
+
+[noise.phishing]
+subjects = ["Ihr Postfach ist fast voll"]
+texts = ["Sehr geehrter Nutzer,\n\nIhr Postfach hat die Grenze erreicht. Melden Sie sich über den Link im Anhang neu an.\n\nIhr Postfach-Service"]
