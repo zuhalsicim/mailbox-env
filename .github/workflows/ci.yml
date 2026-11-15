@@ -1,0 +1,61 @@
+name: ci
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync
+      - run: uv run pytest -q
+      - run: uv run python -m mailgen audit --n 60
+
+  # The Docker gate: in real containers, the reference solution must earn
+  # reward 1 and an agent that does nothing must earn reward 0.
+  docker-gate:
+    needs: tests
+    runs-on: ubuntu-latest
+    env:
+      STARTER: https://github.com/ellamind/build-your-own-harness-starter
+      STARTER_COMMIT: d3035a6040402acfcd8c6d255f92188d4bc06ec9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Generate one instance per level
+        run: |
+          uv sync
+          for level in 1 2 3; do
+            uv run python -m mailgen generate --level "$level" --seed 1 --out "$RUNNER_TEMP/tasks"
+          done
+      # The starter's lock file records an exclude-newer setting of the machine it was made on,
+      # so "uv sync --locked" refuses it anywhere else. --frozen installs exactly what the lock file lists.
+      - name: Install the starter with its pinned Harbor
+        run: |
+          git clone "$STARTER" "$RUNNER_TEMP/starter"
+          cd "$RUNNER_TEMP/starter"
+          git checkout --quiet "$STARTER_COMMIT"
+          uv sync --frozen
+      - name: Reference solution earns 1, doing nothing earns 0
+        working-directory: ${{ runner.temp }}/starter
+        run: |
+          run_agent() {  # agent name, reward it must earn
+            for task in "$RUNNER_TEMP"/tasks/*/; do
+              job="$1-$(basename "$task")"
+              uv run harbor run -p "$task" -a "$1" -n 1 --jobs-dir "$RUNNER_TEMP/jobs" --job-name "$job"
+              reward=$(cat "$RUNNER_TEMP/jobs/$job"/*/verifier/reward.txt)
+              echo "$job: reward $reward, must be $2"
+              [ "$reward" = "$2" ] || exit 1
+            done
+          }
+          run_agent oracle 1
+          run_agent nop 0
+      - name: Show the trial files if the gate failed
+        if: failure()
+        run: |
+          find "$RUNNER_TEMP/jobs" -type f | sort
+          find "$RUNNER_TEMP/jobs" -type f \( -name "*.json" -o -name "*.txt" -o -name "*.log" \) -size -200k \
+            -exec sh -c 'echo "=== $1"; cat "$1"; echo' _ {} \;
